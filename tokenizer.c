@@ -312,7 +312,10 @@ int main(int argc, char **argv) {
 	/*convert file to string*/
 	long fileSize;										//size of the file in chars
 	char* str;											//the file in string form
-	FILE* fp = fopen(argv[1], "r");						//open the file to read
+	FILE* fp = fopen(argv[2], "rb");					//open the file to read
+	if(!fp){
+		return 1;
+	}
 	fseek(fp, 0, SEEK_END);								//move fp to 0 away from the end of the file
 	fileSize = ftell(fp);								//get the size of the file by getting the current value of fp's position, which should be at EOF
 	fseek(fp, 0, SEEK_SET);								//move fp to 0 away from the start of the file
