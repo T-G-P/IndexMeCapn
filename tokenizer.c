@@ -23,7 +23,7 @@
  * You need to fill in this function as part of your implementation.
  */
 
-TokenizerT *TKCreate(char *ts) {
+TokenizerT *TKCreate(char *fileName) {
 
 	/*
 	 * Description: creates a new tokenizer struct from the token stream and delimiters
@@ -33,9 +33,25 @@ TokenizerT *TKCreate(char *ts) {
 	 *
 	 */
 
-	if(ts == NULL){
+	if(fileName == NULL){
 		return NULL;
 	}
+	
+	/*convert file to string*/
+	long fileSize;										//size of the file in chars
+	char* str;											//the file in string form
+	FILE* fp = fopen(fileName, "rb");					//open the file to read
+	
+	if(!fp){
+		return 1;
+	}
+	
+	fseek(fp, 0, SEEK_END);								//move fp to 0 away from the end of the file
+	fileSize = ftell(fp);								//get the size of the file by getting the current value of fp's position, which should be at EOF
+	fseek(fp, 0, SEEK_SET);								//move fp to 0 away from the start of the file
+	str = malloc(sizeof(char)*fileSize);				//allocate space for the file as a string based on the fileSize
+	fread(str, 1, fileSize, fp);						//populate string with file info
+    fclose(fp);
 
 	TokenizerT* tokenizer = (TokenizerT*)malloc(sizeof(TokenizerT));
 
@@ -43,7 +59,7 @@ TokenizerT *TKCreate(char *ts) {
 		return NULL;
 	}
 
-	tokenizer->copied_string = ts;
+	tokenizer->copied_string = str;
 	tokenizer->current_position = tokenizer->copied_string;
 
 	return tokenizer;
@@ -146,36 +162,27 @@ char *TKGetNextToken(TokenizerT *tk) {
 
 int tokenize(char *fileName) {
 
-
-	/*make sure file exists*/
-
-	/*convert file to string*/
-	long fileSize;										//size of the file in chars
-	char* str;											//the file in string form
-	FILE* fp = fopen(fileName, "rb");					//open the file to read
-	if(!fp){
+	/*make sure there is a fileName*/
+	if(!fileName){
 		return 1;
 	}
-	fseek(fp, 0, SEEK_END);								//move fp to 0 away from the end of the file
-	fileSize = ftell(fp);								//get the size of the file by getting the current value of fp's position, which should be at EOF
-	fseek(fp, 0, SEEK_SET);								//move fp to 0 away from the start of the file
-	str = malloc(sizeof(char)*fileSize);				//allocate space for the file as a string based on the fileSize
-	fread(str, 1, fileSize, fp);						//populate string with file info
-     fclose(fp);
 
-	TokenizerT* tokenizer = TKCreate(str);
+	/*create tokenizer*/
+	TokenizerT* tokenizer = TKCreate(fileName);
 
+	/*make sure TKCreate succeeds*/
 	if(tokenizer == NULL) {
 	   return 1;
      }
-
+	
+	/*go through the tokens and add to data structure (to be added)*/
 	char* token = NULL;
-
 	while((token = TKGetNextToken(tokenizer)) != NULL) {
 		//printf("%s\n", token);
 		free(token);
 	}
-
+	
+	/*free malloced data*/
 	TKDestroy(tokenizer);
 
 	return 0;
