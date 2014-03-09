@@ -46,7 +46,7 @@ TokenizerT *TKCreate(char *fileName) {
     if(!fp){
         return NULL;
     }
-
+    printf("file opened\n");
 
     fseek(fp, 0, SEEK_END);								//move fp to 0 away from the end of the file
     fileSize = ftell(fp);								//get the size of the file by getting the current value of fp's position, which should be at EOF
@@ -55,6 +55,10 @@ TokenizerT *TKCreate(char *fileName) {
     fread(str, 1, fileSize, fp);						//populate string with file info
     fclose(fp);
 
+    if(str == NULL){
+        free(str);
+        return NULL;
+    }
     TokenizerT* tokenizer = (TokenizerT*)malloc(sizeof(TokenizerT));
 
     if(tokenizer == NULL){
@@ -163,6 +167,7 @@ char *TKGetNextToken(TokenizerT *tk) {
  */
 
 int tokenize(char *fileName) {
+
     /*make sure there is a fileName*/
     if(!fileName){
         return 1;
@@ -175,6 +180,7 @@ int tokenize(char *fileName) {
     if(tokenizer == NULL) {
         return 1;
     }
+
     /*go through the tokens and add to data structure (to be added)*/
     char* token = NULL;
     while((token = TKGetNextToken(tokenizer)) != NULL) {

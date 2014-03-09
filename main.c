@@ -34,11 +34,10 @@ void destroyBasicTypeNoAlloc(void *p) {
 int main(int argc,char** argv){
 
 
-    if(argc !=3){
+    if(argc !=2){
         return 1;
     }
-    TKCreate(argv[2]);
-    tokenize(argv[2]);
+    tokenize(argv[1]);
     return 0;
 }
 
