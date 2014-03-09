@@ -307,7 +307,18 @@ int main(int argc, char **argv) {
 		return -1;
 	}
 	
-	TokenizerT* tokenizer = TKCreate(argv[1], argv[2]);
+	/*make sure file exists*/
+	/*convert file to string*/
+	long fileSize;										//size of the file in chars
+	char* str;											//the file in string form
+	FILE* fp = fopen(argv[1], "r");						//open the file to read
+	fseek(fp, 0, SEEK_END);								//move fp to 0 away from the end of the file
+	fileSize = ftell(fp);								//get the size of the file by getting the current value of fp's position, which should be at EOF
+	fseek(fp, 0, SEEK_SET);								//move fp to 0 away from the start of the file
+	str = malloc(sizeof(char)*fileSize);				//allocate space for the file as a string based on the fileSize
+	fread(str, 1, fileSize, fp);						//populate string with file info
+
+	TokenizerT* tokenizer = TKCreate(argv[1], str);
 	
 	if(tokenizer == NULL) {
 		printf("Error: unable to create tokenizer\n");
