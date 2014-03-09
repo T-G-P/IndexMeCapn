@@ -29,7 +29,3 @@ void destroyBasicTypeNoAlloc(void *p) {
 	return;
 }
 
-int main()
-{
-
-}
