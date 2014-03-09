@@ -3,7 +3,7 @@ CFLAGS = -Wall -g
 CFILES = tokenizer.c sorted-list.c main.c -c
 
 all: main archive
-	$(CC) sorted-list.o main.o -o index
+	$(CC) sorted-list.o tokenizer.o main.o -o index
 	rm *.o
 
 main:

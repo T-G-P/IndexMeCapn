@@ -5,21 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "tokenizer.h"
 
 #define MAX_HEX_CHARS 2
 #define MAX_OCT_CHARS 3
-
-/*
- * Tokenizer type.  You need to fill in the type as part of your implementation.
- */
-
-struct TokenizerT_ {
-	char* copied_string;
-	char* current_position;
-};
-
-typedef struct TokenizerT_ TokenizerT;
-
 /*
  * TKCreate creates a new TokenizerT object for a given set of separator
  * characters (given as a string) and a token stream (given as a string).
@@ -155,19 +144,15 @@ char *TKGetNextToken(TokenizerT *tk) {
  * Each token should be printed on a separate line.
  */
 
-int main(int argc, char **argv) {
+int tokenize(char *fileName) {
 
-	if(argc != 2){
-		printf("Error: invalid number of arguments\n");
-		return -1;
-	}
 
 	/*make sure file exists*/
 
 	/*convert file to string*/
 	long fileSize;										//size of the file in chars
 	char* str;											//the file in string form
-	FILE* fp = fopen(argv[1], "rb");					//open the file to read
+	FILE* fp = fopen(fileName, "rb");					//open the file to read
 	if(!fp){
 		return 1;
 	}
@@ -181,13 +166,13 @@ int main(int argc, char **argv) {
 	TokenizerT* tokenizer = TKCreate(str);
 
 	if(tokenizer == NULL) {
-		printf("Error: unable to create tokenizer\n");
-	}
+	   return 1;
+     }
 
 	char* token = NULL;
 
 	while((token = TKGetNextToken(tokenizer)) != NULL) {
-		printf("%s\n", token);
+		//printf("%s\n", token);
 		free(token);
 	}
 
