@@ -308,6 +308,7 @@ int main(int argc, char **argv) {
 	}
 	
 	/*make sure file exists*/
+
 	/*convert file to string*/
 	long fileSize;										//size of the file in chars
 	char* str;											//the file in string form
