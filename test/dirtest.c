@@ -1,4 +1,4 @@
-
+#include <sys/stat.h>
 #include <dirent.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -9,8 +9,10 @@
 int dirCrawl(char *);
 
 int dirCrawl(char *whatever){
+    FILE *fp;
     DIR * dir;
     struct dirent *entry;   //contains name of file that pointing to
+    struct stat stat_record;
     extern int errno;
     if((dir = opendir(whatever)) == 0){
         printf("could not open...\n");
@@ -39,8 +41,22 @@ int dirCrawl(char *whatever){
                     //tokenize if possible
                     char *next_file = malloc(strlen(whatever) + strlen(entry->d_name) + 1 + 1);
                     sprintf(next_file, "%s/%s", whatever, entry->d_name);
-                    tokenize(next_file);
-                    free(next_file);
+                    fp = fopen(next_file, "r");
+                    fseek (fp, 0, SEEK_END);
+                    int size = ftell(fp);
+                    if(fp){
+                        if(size == 0){
+                            printf("file is empty\n");
+                            fclose(fp);
+                            free(next_file);
+                        }
+                        else{
+                            tokenize(next_file);
+                            fclose(fp);
+                            free(next_file);
+                        }
+                    }
+
 
                 }
             }
@@ -59,3 +75,4 @@ int main(int argc, char** argv){
     dirCrawl(argv[1]);
 
 }
+
