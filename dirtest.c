@@ -70,6 +70,8 @@ int dirCrawl(char *whatever){
 int main(int argc, char** argv){
     if(argc != 3){
         printf("Invalid number of arguments\n");
+        printf("Usage: ./index <file to write to> <pathname or filename>");
+        return 0;
     }
     FILE *fp = fopen(argv[1],"r");
     if(fp){
@@ -86,6 +88,7 @@ int main(int argc, char** argv){
     //Will need to sort hash table and print to file.
     //sort_by_token();
     print_files(argv[1]);
+    fclose(fp);
     return 0;
 
 }
