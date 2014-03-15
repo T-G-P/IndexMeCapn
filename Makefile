@@ -1,17 +1,19 @@
-CC = gcc
 CFLAGS = -Wall -g
-CFILES = tokenizer.c sorted-list.c main.c -c
 
-all: main archive
-	$(CC) sorted-list.o tokenizer.o main.o -o index
-	rm *.o
+all: index
 
-main:
-	$(CC) $(CFILES) $(CFLAGS)
+index: tokenizer.o dirtest.o hashadd.o
+	gcc $(CFLAGS) tokenizer.o dirtest.o hashadd.o -o index
 
-archive: main
-	ar -r libsl.a tokenizer.o sorted-list.o
+tokenizer.o: tokenizer.c
+	gcc $(CFLAGS) -c tokenizer.c -o tokenizer.o
+
+dirtest.o: dirtest.c
+	gcc $(CFLAGS) -c dirtest.c -o dirtest.o
+
+hashadd.o: hashadd.c
+	gcc $(CFLAGS) -c hashadd.c -o hashadd.o
+
 clean:
 	rm -f index
 	rm -f *.o
-	rm -f libsl.a
