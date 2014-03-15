@@ -5,7 +5,8 @@
  */
 
 #include <stdlib.h>
-
+#include "uthash.h"
+#include "hashadd.h"
 /*
  * Tokenizer type.  You need to fill in the type as part of your implementation.
  */
@@ -25,6 +26,6 @@ char is_delimiter(char);
 
 char *TKGetNextToken(TokenizerT *);
 
-int tokenize(char *);
+int tokenize(char *, char*);
 
 #endif

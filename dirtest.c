@@ -18,11 +18,11 @@ int dirCrawl(char *whatever){
     struct dirent *entry;   //contains name of file that pointing to
     extern int errno;
     if((dir = opendir(whatever)) == 0){
-        printf("could not open...\n");
+        //printf("could not open...\n");
         //tokenize here on whatever if possible
-        entry = readdir(dir);
-        if(entry != 0){
-            tokenize(entry->d_name, entry->d_name);
+        fp = fopen(whatever, "r");
+        if(fp){
+            tokenize(whatever, whatever);
         }
 
     }
@@ -34,13 +34,13 @@ int dirCrawl(char *whatever){
             else{
                 //printf("%s\n",entry->d_name);
                 if(entry->d_type == DT_DIR){
-                    printf("This is a directory %s\n", entry->d_name);
+                    //printf("This is a directory %s\n", entry->d_name);
                     char *next_dir = malloc(strlen(whatever) + strlen(entry->d_name) + 1 + 1);
                     sprintf(next_dir, "%s/%s", whatever, entry->d_name);
                     dirCrawl(next_dir);
                     free(next_dir);
                 }else if(entry->d_type == DT_REG){
-                    printf("This is a file %s\n", entry->d_name);
+                    //printf("This is a file %s\n", entry->d_name);
                     //tokenize if possible
                     char *next_file = malloc(strlen(whatever) + strlen(entry->d_name) + 1 + 1);
                     sprintf(next_file, "%s/%s", whatever, entry->d_name);
@@ -49,7 +49,7 @@ int dirCrawl(char *whatever){
                     int size = ftell(fp);
                     if(fp){
                         if(size == 0){
-                            printf("file is empty\n");
+                            //printf("file is empty\n");
                             fclose(fp);
                             free(next_file);
                         }
@@ -85,7 +85,7 @@ int main(int argc, char** argv){
     dirCrawl(argv[2]);
     //Will need to sort hash table and print to file.
     //sort_by_token();
-    print_files();
+    print_files(argv[1]);
     return 0;
 
 }

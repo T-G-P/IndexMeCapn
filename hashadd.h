@@ -30,7 +30,9 @@ int token_compare(struct hash *, struct hash *);
 
 void sort_by_token(void);
 
-void print_files(void);
+void sortList(struct Node*);
+
+void print_files(char*);
 
 #endif
 

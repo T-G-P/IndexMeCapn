@@ -162,14 +162,14 @@ char *TKGetNextToken(TokenizerT *tk) {
  * Each token should be printed on a separate line.
  */
 
-int tokenize(char *fileName) {
+int tokenize(char *pathName, char *fileName ) {
     /*make sure there is a fileName*/
-    if(!fileName){
+    if(!pathName){
         return 1;
     }
 
     /*create tokenizer*/
-    TokenizerT* tokenizer = TKCreate(fileName);
+    TokenizerT* tokenizer = TKCreate(pathName);
 
     /*make sure TKCreate succeeds*/
     if(tokenizer == NULL) {
@@ -178,12 +178,13 @@ int tokenize(char *fileName) {
     /*go through the tokens and add to data structure (to be added)*/
     char* token = NULL;
     while((token = TKGetNextToken(tokenizer)) != NULL) {
-        printf("%s\n", token);
-        free(token);
+        struct Node* fileNode = createNode(fileName, token);
+        add_node(fileNode, token);
+        //printf("%s\n", token);
+        sort_by_token();
     }
 
     /*free malloced data*/
     TKDestroy(tokenizer);
-
     return 0;
 }

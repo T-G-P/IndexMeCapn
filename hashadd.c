@@ -54,30 +54,41 @@ void sort_by_token() {
     HASH_SORT(tokenHash, token_compare);
 }
 
-void sortList(Node *head){
-    Node *ptr = head;
-    Node *prev = NULL;
-    Node *max =
-    while(ptr){
-       if(
+void sortList(struct Node *head){
+    struct Node *ptr = NULL;
+    struct Node *counter = NULL;
 
-        prev = ptr;
-        ptr = ptr->next;
+    for(ptr = head; ptr->next != NULL; ptr = ptr->next)
+    {
+        for(counter = ptr->next; counter != NULL; counter = counter->next)
+        {
+            if(ptr->count > counter->count)
+            {
+                int temp = ptr->count;
+                char *tmp = ptr->fileName;
+                ptr->count = counter->count;
+                strcpy(counter->fileName,ptr->fileName);
+                counter->count = temp;
+                strcpy(tmp,ptr->fileName);
+            }
+        }
     }
-
 }
 
-void print_files() {
+
+void print_files(char* fileName) {
     struct hash *h;
     struct Node *ptr;
+    FILE* fp = fopen(fileName, "w");
     for(h=tokenHash; h != NULL; h=(struct hash*)(h->hh.next)) {
-        printf("<list> %s\n\n", h->token);  //print the token
+        fprintf(fp,"<list> %s\n\n", h->token);  //print the token
         ptr = h->file;  //points to hash node
+        sortList(ptr);
         while(ptr){     //while the pointer is not null
-            printf("%s %d ", ptr->fileName, ptr->count); //then for each token print file names and count
+            fprintf(fp,"%s %d ", ptr->fileName, ptr->count); //then for each token print file names and count
             ptr = ptr->next;
         }
-        printf("\n\n</list>\n\n");
+        fprintf(fp,"\n\n</list>\n\n");
     }
 }
 
