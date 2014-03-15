@@ -154,13 +154,15 @@ char *TKGetNextToken(TokenizerT *tk) {
     return token;
 }
 
-/*
- * main will have two string arguments (in argv[1] and argv[2]).
- * The first string contains the separator characters.
- * The second string contains the tokens.
- * Print out the tokens in the second string in left-to-right order.
- * Each token should be printed on a separate line.
- */
+/*Converts the string to lowercase so there is no redundancy*/
+void toLower(char *token){
+    int i;
+    for(i = 0; i<strlen(token); i++){
+        token[i] = tolower(token[i]);
+    }
+    return;
+
+}
 
 int tokenize(char *pathName, char *fileName ) {
     /*make sure there is a fileName*/
@@ -175,9 +177,10 @@ int tokenize(char *pathName, char *fileName ) {
     if(tokenizer == NULL) {
         return 1;
     }
-    /*go through the tokens and add to data structure (to be added)*/
+    /*go through the tokens and add to data structure */
     char* token = NULL;
     while((token = TKGetNextToken(tokenizer)) != NULL) {
+        toLower(token);
         struct Node* fileNode = createNode(fileName, token);
         add_node(fileNode, token);
         //printf("%s\n", token);

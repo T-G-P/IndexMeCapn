@@ -53,23 +53,23 @@ int token_compare (struct hash *a, struct hash *b) {
 void sort_by_token() {
     HASH_SORT(tokenHash, token_compare);
 }
-
+/*This sorting function swaps the file name and data rather than manipulating pointers. */
 void sortList(struct Node *head){
     struct Node *ptr = NULL;
     struct Node *counter = NULL;
 
-    for(ptr = head; ptr->next != NULL; ptr = ptr->next)
-    {
-        for(counter = ptr->next; counter != NULL; counter = counter->next)
-        {
-            if(ptr->count > counter->count)
-            {
-                int temp = ptr->count;
-                char *tmp = ptr->fileName;
-                ptr->count = counter->count;
-                strcpy(counter->fileName,ptr->fileName);
-                counter->count = temp;
-                strcpy(tmp,ptr->fileName);
+    for(ptr = head; ptr->next != NULL; ptr = ptr->next){
+        for(counter = ptr->next; counter != NULL; counter = counter->next) {
+            if(ptr->count < counter->count){    //the first pointer  data is less than the counter pointer
+                int temp = ptr->count;  //store lesser values count in temp variable
+                char *tmp = counter->fileName;  //why does this work?
+                //strcpy(tmp,counter->fileName);  //store greater values filename in temp variable (why does this not work)
+                ptr->count = counter->count;    //set the lesser value to have the higher count (swap counts)
+                counter->fileName = ptr->fileName;  //why does this work?
+                //strcpy(counter->fileName,ptr->fileName);    //copy the lesser value filename into the counter (why doesn't this work)k
+                counter->count = temp;  //set the greater value to have the lesser count (swap counts)
+                ptr->fileName = tmp;
+                //strcpy(ptr->fileName,tmp);  //copy the greater value into the pointer spot
             }
         }
     }

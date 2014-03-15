@@ -26,6 +26,8 @@ char is_delimiter(char);
 
 char *TKGetNextToken(TokenizerT *);
 
+void toLower(char *);
+
 int tokenize(char *, char*);
 
 #endif
