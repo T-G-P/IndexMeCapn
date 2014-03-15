@@ -34,5 +34,11 @@ void sortList(struct Node*);
 
 void print_files(char*);
 
+/*WORK IN PROGRESS
+void free_lst(struct Node*);
+
+void free_all_hashes(void);
+*/
+
 #endif
 

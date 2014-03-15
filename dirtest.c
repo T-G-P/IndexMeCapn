@@ -85,7 +85,7 @@ int main(int argc, char** argv){
 
     dirCrawl(argv[2]);
     print_files(argv[1]);
-    free_all_hashes();
+    //free_all_hashes();
     return 0;
 
 }

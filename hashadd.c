@@ -92,25 +92,27 @@ void print_files(char* fileName) {
     }
 }
 
-/* frees a linked list*/
+/*WORK IN PROGRESS
+ *Feeing the linked lists as well as all of the hashes
 void free_list(struct Node* ptr)
 {
     struct Node* temp;
     while (ptr){
         temp = ptr;
         ptr =  ptr->next;
+        free(temp->token);
+        free(temp->fileName);
         free(temp);
     }
 }
 
-/*frees all the hashes*/
 void free_all_hashes(){
     struct hash *h, *tmp;
     HASH_ITER(hh, tokenHash, h, tmp) {
-        free_list(h->file);
-        HASH_DEL(tokenHash,h);  /* delete; tokenHash advances to next */
-        free(h);            
+        HASH_DEL(tokenHash,h);  // delete; tokenHash advances to next 
+        free_list(h->file);            
     }
 
 }
+*/
 
