@@ -66,7 +66,7 @@ void sortList(struct Node *head){
                 //strcpy(tmp,counter->fileName);  //store greater values filename in temp variable (why does this not work)
                 ptr->count = counter->count;    //set the lesser value to have the higher count (swap counts)
                 counter->fileName = ptr->fileName;  //why does this work?
-                //strcpy(counter->fileName,ptr->fileName);    //copy the lesser value filename into the counter (why doesn't this work)k
+                //strcpy(counter->fileName,ptr->fileName);    //copy the lesser value filename into the counter (why doesn't this work)
                 counter->count = temp;  //set the greater value to have the lesser count (swap counts)
                 ptr->fileName = tmp;
                 //strcpy(ptr->fileName,tmp);  //copy the greater value into the pointer spot
@@ -90,5 +90,27 @@ void print_files(char* fileName) {
         }
         fprintf(fp,"\n\n</list>\n\n");
     }
+}
+
+/* frees a linked list*/
+void free_list(struct Node* ptr)
+{
+    struct Node* temp;
+    while (ptr){
+        temp = ptr;
+        ptr =  ptr->next;
+        free(temp);
+    }
+}
+
+/*frees all the hashes*/
+void free_all_hashes(){
+    struct hash *h, *tmp;
+    HASH_ITER(hh, tokenHash, h, tmp) {
+        free_list(h->file);
+        HASH_DEL(tokenHash,h);  /* delete; tokenHash advances to next */
+        free(h);            
+    }
+
 }
 
