@@ -70,7 +70,7 @@ int dirCrawl(char *whatever){
 int main(int argc, char** argv){
     if(argc != 3){
         printf("Invalid number of arguments\n");
-        printf("Usage: ./index <file to write to> <pathname or filename>");
+        printf("\nUsage: ./index <file to write to> <pathname or filename>\n");
         return 0;
     }
     FILE *fp = fopen(argv[1],"r");
@@ -78,17 +78,13 @@ int main(int argc, char** argv){
         printf("The file already exists. Would you like to Overwrite? Y/N\n");
         if(tolower(getchar()) == 'n'){
             printf("The file will not be overwritten. Goodbye\n");
-            fclose(fp);
             return 0;
         }
 
     }
 
     dirCrawl(argv[2]);
-    //Will need to sort hash table and print to file.
-    //sort_by_token();
     print_files(argv[1]);
-    fclose(fp);
     return 0;
 
 }
